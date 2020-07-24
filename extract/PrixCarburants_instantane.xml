@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<pdv_liste>
+  <pdv id="19200007" latitude="4554678.29" longitude="231167.5" cp="19200" pop="R">
+    <adresse>8 AVENUE PIERRE SEMARD</adresse>
+    <ville>Ussel</ville>
+    <horaires automate-24-24="1">
+      <jour id="1" nom="Lundi" ferme=""/>
+      <jour id="2" nom="Mardi" ferme=""/>
+      <jour id="3" nom="Mercredi" ferme=""/>
+      <jour id="4" nom="Jeudi" ferme=""/>
+      <jour id="5" nom="Vendredi" ferme=""/>
+      <jour id="6" nom="Samedi" ferme=""/>
+      <jour id="7" nom="Dimanche" ferme=""/>
+    </horaires>
+    <services>
+      <service>Vente de gaz domestique (Butane, Propane)</service>
+      <service>Automate CB 24/24</service>
+    </services>
+    <prix nom="Gazole" id="1" maj="2020-07-07 08:18:29" valeur="1.215"/>
+    <prix nom="SP95" id="2" maj="2020-07-07 08:18:29" valeur="1.345"/>
+    <prix nom="SP98" id="6" maj="2020-07-07 08:18:29" valeur="1.385"/>
+  </pdv>
+  <pdv id="33830005" latitude="4450990.1" longitude="-78741.3" cp="33830" pop="R">
+    <adresse>25 Route des Pr�s</adresse>
+    <ville>Belin-B�liet</ville>
+    <horaires automate-24-24="1">
+      <jour id="1" nom="Lundi" ferme=""/>
+      <jour id="2" nom="Mardi" ferme=""/>
+      <jour id="3" nom="Mercredi" ferme=""/>
+      <jour id="4" nom="Jeudi" ferme=""/>
+      <jour id="5" nom="Vendredi" ferme=""/>
+      <jour id="6" nom="Samedi" ferme=""/>
+      <jour id="7" nom="Dimanche" ferme=""/>
+    </horaires>
+    <services>
+      <service>Station de gonflage</service>
+      <service>Laverie</service>
+      <service>Location de v�hicule</service>
+      <service>Piste poids lourds</service>
+      <service>DAB (Distributeur automatique de billets)</service>
+      <service>Lavage automatique</service>
+      <service>Bornes �lectriques</service>
+      <service>Automate CB 24/24</service>
+    </services>
+    <prix nom="Gazole" id="1" maj="2020-07-18 10:04:08" valeur="1.170"/>
+    <prix nom="E85" id="3" maj="2020-07-03 16:29:14" valeur="0.599"/>
+    <prix nom="E10" id="5" maj="2020-07-11 08:57:28" valeur="1.258"/>
+    <prix nom="SP98" id="6" maj="2020-07-13 13:15:32" valeur="1.306"/>
+  </pdv>
+  <pdv id="22320002" latitude="4831638.56" longitude="-305558.36" cp="22320" pop="R">
+    <adresse>5 ROUTE DE PLUSSULIEN</adresse>
+    <ville>CORLAY</ville>
+    <horaires automate-24-24="1">
+      <jour id="1" nom="Lundi" ferme=""/>
+      <jour id="2" nom="Mardi" ferme=""/>
+      <jour id="3" nom="Mercredi" ferme=""/>
+      <jour id="4" nom="Jeudi" ferme=""/>
+      <jour id="5" nom="Vendredi" ferme=""/>
+      <jour id="6" nom="Samedi" ferme=""/>
+      <jour id="7" nom="Dimanche" ferme=""/>
+    </horaires>
+    <services>
+      <service>Boutique alimentaire</service>
+      <service>Vente de gaz domestique (Butane, Propane)</service>
+      <service>Relais colis</service>
+      <service>Automate CB 24/24</service>
+    </services>
+    <prix nom="Gazole" id="1" maj="2020-06-19 16:12:23" valeur="1.218"/>
+    <prix nom="SP95" id="2" maj="2020-06-19 16:12:24" valeur="1.332"/>
+    <prix nom="SP98" id="6" maj="2020-06-19 16:12:24" valeur="1.351"/>
+  </pdv>
+</pdv_liste>
