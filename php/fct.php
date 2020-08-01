@@ -8,7 +8,6 @@ function getData(){
     if ($out === TRUE) {
         $zip->extractTo('./extract/');
         $zip->close();
-        echo 'woot!';
         } else {
         echo 'doh!';
         } 
