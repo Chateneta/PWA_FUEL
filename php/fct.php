@@ -17,19 +17,3 @@ function getData(){
     } 
 
 }
-
-
-//$xml = simplexml_load_file('./extract/PrixCarburants_instantane.xml');
-
-
-// afficher all services
-// foreach ($xml->pdv[1]->services->service as $serv) {
-//   echo '<li>'.$serv.'</li>';
-// };
-
-// afficher all prix
-// $pcount =  $xml->pdv[1]->prix->count();
-// for ($i=0; $i<$pcount; $i++ ) {
-//   echo('<li>'.$xml->pdv[1]->prix[$i]['nom'].'</li>');
-// }
-?>
