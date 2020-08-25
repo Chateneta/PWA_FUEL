@@ -1,8 +1,20 @@
+$(window).on('offline', function(){
+    $('#refresh').hide();
+});
+
+$('#refresh').click(function(){
+    $.get("php/fct.php").then(
+        $('#error').text('Réussite')
+        ).catch(err =>  $('#error').text('Failure'));      
+})
+
 
 function launch(){
     getLocation();
     $('#go').hide();
+    $('.container #logo').hide();
     $('#loader').toggle();
+    $('#refresh').addClass('fixed');
 }
 
 function getLocation() {
@@ -13,7 +25,7 @@ function getLocation() {
                 latitude: position.coords.latitude
             };
 
-            getDelta(gps);
+            getTab(gps);
         });
     }
     else {
@@ -21,46 +33,41 @@ function getLocation() {
     }
 }
 
-
-function getDelta(gps){
-        loadXMLDoc('./extract/PrixCarburants_instantane.xml').then( data => {
-        console.log(data);
+function getTab(gps){
+        loadXMLDoc('extract/PrixCarburants_instantane.xml').then( data => {
         xmlDoc = data.getElementsByTagName("pdv");
         let radlati1 = Math.PI * gps.latitude/180;
-        var delta=new Array;
+        var tab=new Array;
         for(i = 0; i < xmlDoc.length; i++){
             let lati = xmlDoc[i].getAttribute('latitude')/100000;
             let longi = xmlDoc[i].getAttribute('longitude')/100000;
-            // nearest = Math.abs( (gps.latitude-lati)) + Math.abs((gps.longitude-longi));
-            let radlati2  =Math.PI * lati/180;
-            let radDeltaLongi  =Math.PI * (gps.longitude-longi)/180;
+            let radlati2 = Math.PI * lati/180;
+            let radDeltaLongi = Math.PI * (gps.longitude-longi)/180;
             let temp = Math.acos(Math.sin(radlati1) * Math.sin(radlati2) + Math.cos(radlati1) * Math.cos(radlati2) * Math.cos(radDeltaLongi));
-            temp = temp * 180/Math.PI
-            let deltaKm = (temp * 60 * 1.1515) * 1.609344;
-            delta.push({
+            let deltaKm = temp*6371;
+            tab.push({
                 gps:deltaKm,
                 index:i}) 
             }
-        delta.sort(function(a,b){
+        tab.sort(function(a,b){
             return a.gps - b.gps
         })
-        delta=delta.slice(0,5);
-        getNearest(delta)
+        tab=tab.slice(0,5);
+        getNearest(tab)
     })
-   
 }
 
-function getNearest(delta){
-    console.log(delta)
-    for(j=0; j<delta.length ;j++){
+function getNearest(tab){
+    $('#main').toggle();
+    for(j=0; j<tab.length ;j++){
         var context ={
-            ville:xmlDoc[delta[j].index].getElementsByTagName('ville'),
-            adrss:xmlDoc[delta[j].index].getElementsByTagName('adresse')
+            ville:xmlDoc[tab[j].index].getElementsByTagName('ville'),
+            adrss:xmlDoc[tab[j].index].getElementsByTagName('adresse')
         };
+        let onclick='openMaps("station+service+'+context.ville[0].textContent.replace(/ /gi, '+')+'+'+context.adrss[0].textContent.replace(/ /gi, '+')+'")';
         var html = [
-            '<div class="data">',
+            '<div class="data" onclick='+onclick+'>',
                 '<div class="title">',
-                    '<span></span>',
                     '<span></span>',
                 '</div>',
                 '<div class="content">',
@@ -76,48 +83,54 @@ function getNearest(delta){
             '</div>'
         ].join("\n");
         $('#main').append(html);
-        $('#main .data:last-child .title span:first-child').html(context.ville);
-        $('#main .data:last-child .title span:nth-child(2)').html(Math.round( (delta[j].gps*10) )/10 +" km" );
+        $('#main .data:last-child .title').prepend(context.ville);
+        $('#main .data:last-child .title span').html(Math.round( (tab[j].gps*10) )/10 +" km" );
         $('#main .data:last-child .content span:first-child').html(context.adrss);
-        let collec =xmlDoc[delta[j].index].getElementsByTagName('prix');
+        let collec =xmlDoc[tab[j].index].getElementsByTagName('prix');
         for(i=0; i<collec.length; i++){
             $('#main .data:last-child .content ul').append('<li></li>');
             $('#main .data:last-child .content ul li:last-child').html(collec[i].getAttribute('nom')+': '+Math.round( (collec[i].getAttribute('valeur')*10) )/10 +' €');
         }
-        collec =xmlDoc[delta[j].index].getElementsByTagName('service');
+        collec =xmlDoc[tab[j].index].getElementsByTagName('service');
+        collecCount=0;
+        let wash=false;
         for(i=0; i<collec.length; i++){
             if(collec[i].textContent == "DAB (Distributeur automatique de billets)"){
-                $('#main .data:last-child .content .services').append('<img src="./image/capture.png" alt="">');
-
+                $('#main .data:last-child .content .services').append('<img src="./image/atm.svg" alt="">');
+                collecCount++ 
+            }else if( (collec[i].textContent == "Laverie" || collec[i].textContent.includes("Lavage")) && !wash){
+                $('#main .data:last-child .content .services').append('<img src="./image/wash.svg" alt="Laverie">');
+                    wash=true;
+                    collecCount++
+            }else if(collec[i].textContent == "Automate CB 24/24"){
+                $('#main .data:last-child .content .services').append('<img src="./image/2424.svg" alt="24/24">');
+                collecCount++ 
+            }else if(collec[i].textContent.includes('Restauration') ||collec[i].textContent  == 'Boutique alimentaire' ){
+                $('#main .data:last-child .content .services').append('<img src="./image/restau.svg" alt="restau">');
+                collecCount++ 
             }
-            if(collec[i].textContent == "laverie" || "lavage manuel" || 'lavage automatique'){
-                $('#main .data:last-child .content .services').append('<img src="./image/wash.png" alt="">');
-
+            else if(collec[i].textContent == 'Toilettes publiques' ){
+                $('#main .data:last-child .content .services').append('<img src="./image/wc.svg" alt="wc">');
+                collecCount++ 
             }
         }
-
-    } 
     $('#loader').hide();
+    
+    }
 }
 
-
-
-
 async function loadXMLDoc(filename){
-    // if (window.XMLHttpRequest){
-    //     xhttp=new XMLHttpRequest();
-    // }
-    // else{
-    //     xhttp=new ActiveXObject("Microsoft.XMLHTTP");
-    // }
-    // xhttp.open("GET",filename,false);
-    // xhttp.send();
-
-    // return xhttp.responseXML;
     let res = await fetch(filename);
     let text = await res.text();
     let parser = new DOMParser(),
-        xmlDoc = parser.parseFromString(text, 'text/xml');
+        xmlDoc = parser.parseFromString(text,'text/xml');
     return xmlDoc;
 } 
 
+function openMaps(adrss) {
+    console.log('toto')
+    if((navigator.platform.indexOf("iPhone") != -1) || (navigator.platform.indexOf("iPad") != -1) || (navigator.platform.indexOf("iPod") != -1))
+      window.open("maps://maps.google.com/maps?place="+adrss+"&amp;ll=");
+  else 
+      window.open("https://maps.google.com/maps/search/"+adrss);
+  }
