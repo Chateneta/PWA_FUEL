@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <title>PWA_FUEL</title>
+      <meta charset="UTF-8">
+      <meta name="description"content="Author: CHATENET Antoine station essence carburant proximité">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="theme-color" content="#68D745"/>
+      <link rel="icon" type="image/png" href="image/128x.png" />
+      <link rel="apple-touch-icon" type="image/png" href="image/128x.png" />
+      <link rel="manifest" href="manifest.json">
+      <link rel="stylesheet" href="css\style.css">
+      <link rel="stylesheet" href="css\loader.css"> 
+    </head>
+  <body>
+    <div class="container">
+      <img src="image/128x.png" alt="" id="logo">
+      <div id="control">
+        <button id="refresh" ><img src="image/refresh.svg" alt="refresh" ></button>
+        <button id="go" onclick="launch()">GO</button>
+        <div id="loader" class="lds-ring"><div></div><div></div><div></div><div></div></div>
+      </div>
+      <div id="error"></div>
+      
+      <div id="main">
+        <div id="mess">Les 5 stations les + proches de vous :</div>
+      </div>
+    </div>
+    <script src="js\jquery.js"></script>
+    <script>
+      if('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js').then(function() { 
+          console.log("Service Worker Registered"); 
+        });
+      }
+      </script>
+    <script src="js\fct.js"></script>
+  </body>
+</html> 
